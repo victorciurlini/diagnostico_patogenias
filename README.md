@@ -1,1 +1,1 @@
-diagnostico_patogenias
+Repositório destinado ao desenvolvimento do projeto final de sistemas operacionais embarcados 
