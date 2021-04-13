@@ -23,7 +23,7 @@ int main(int argc, char **argv)
                         "localhost", 
                         "cliente", 
                         "Cliente@0001",
-                        "testdb", 0, NULL, 0) == NULL)
+                        "DATABASE_PATOGENOS", 0, NULL, 0) == NULL)
   {
       finish_with_error(con);
   }
