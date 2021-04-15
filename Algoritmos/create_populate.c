@@ -28,13 +28,13 @@ int main(int argc, char **argv)
       finish_with_error(con);
   }
 
-  if (mysql_query(con, "DROP TABLE IF EXISTS cars")) {
-      finish_with_error(con);
-  }
+//   if (mysql_query(con, "DROP TABLE IF EXISTS cars")) {
+//       finish_with_error(con);
+//   }
 
-  if (mysql_query(con, "CREATE TABLE cars(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT)")) {
-      finish_with_error(con);
-  }
+//   if (mysql_query(con, "CREATE TABLE cars(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT)")) {
+//       finish_with_error(con);
+//   }
 
   if (mysql_query(con, "INSERT INTO cars VALUES(1,'Audi',52642)")) {
       finish_with_error(con);

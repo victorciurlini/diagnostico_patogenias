@@ -8,7 +8,7 @@ char * getStringNoMalloc();  //<- without malloc (fails! don't do this!)
 void getStringCallByRef(char* reference); //<- callbyref (good practice)
 
 /* the main */
-int main(int argc, char*argv[]) {
+int main(int argc, char*argv[]) {   
 
     //######### calling with malloc
     char * a = getString();
