@@ -77,7 +77,7 @@ int main(int argc, char **argv)
             if(compare != 0){
                 printf("compare: %d\n", compare);
                 printf("file_name: %s\n", file_name);
-                printf("path: %s\n", path);
+                printf("path:   %s\n", path);
                 printf("Nome do arquivo: %s\n", file_name);
                 printf("Caminho do arquivo: %s\n", path);
 
