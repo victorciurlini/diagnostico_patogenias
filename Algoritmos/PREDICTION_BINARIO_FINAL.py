@@ -51,6 +51,6 @@ else:
     prediction = 'DOENTE' 
 
 arquivo = []
-arquivo = open('RESULTADO.txt', 'a')
+arquivo = open('RESULTADO.txt', 'w')
 print(str(prediction)+'\n', file=arquivo) 
 arquivo.close()
