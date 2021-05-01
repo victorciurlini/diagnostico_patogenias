@@ -3,7 +3,6 @@ import glob
 import time
 import cv2
 import os
-import matplotlib.pyplot as plt
 from keras.preprocessing import image
 from tensorflow.keras.models import model_from_json
 from keras.preprocessing.image import ImageDataGenerator
