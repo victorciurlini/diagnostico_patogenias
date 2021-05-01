@@ -12,7 +12,7 @@
 char* datetime();
 char* cleandata(char* data);
 char* move_file(char* path, char* data);
-void* populate_mysql(MYSQL *con, char* path_database, char* file_name, char* data, char *classificacao);
+void* populate_mysql(char* path_database, char* file_name, char* data, char *classificacao);
 void finish_with_error(MYSQL *con);
 char* model_result();
 
@@ -28,8 +28,8 @@ int main(int argc, char **argv)
     char ch, file_name[100];
     char path[20] = "../Photos/";
     char *path_database;
-    char *data = datetime();
-    char *nome_data = cleandata(data);
+    char *data;
+    char *nome_data;
     char *cmd;
     char *classificacao;
     char *folder = "../Photos";
@@ -46,23 +46,26 @@ int main(int argc, char **argv)
     clock_t start, stop;
     MYSQL *con = mysql_init(NULL);
     /***********************************/
+
     while(1){
+        
         size = strlen(format)+strlen(folder)+1;
         cmd = malloc(size * sizeof(char));
-
         snprintf(cmd, size, format, folder);
-        //printf("executing: %s\n", cmd);
+        //printf("%s\n", cmd);
 
         status = system(cmd);
+        //printf("status: %d\n", status);
         exitcode = WEXITSTATUS(status);
 
         //printf ("exit code: %d, exit status: %d\n", exitcode, status);
         //Verifica se o diretório está vazio, aguarda 5 segundos para verificar novamente
         if (exitcode == 1){
                 sleep(2);
-                printf("O diretório está vazio\n");
+                printf("\nO diretório está vazio\n");
         }
         else{
+            printf("\nexecuta fluxo\n");
             //Caso o repositório não estiver vazio, ele é aberto
             //Para receber o conteúdo
             directory = opendir(folder);
@@ -71,8 +74,7 @@ int main(int argc, char **argv)
             while((entry=readdir(directory))){
                 files++; // Incrimenta pelos arquivos
                 char *filename = entry->d_name; //Recebe o nome dos arquivos
-                
-                //Loop para ignorar os repositórios "." e ".."
+            //     //Loop para ignorar os repositórios "." e ".."
                 for(i=0; filename[i]; i++){
                     if (filename[i] == '.'){
                         break;
@@ -81,29 +83,34 @@ int main(int argc, char **argv)
                         strcpy(file_name, filename); //Copia o nome da imagem para outra variável
                     }
                 }
+            }
                 strcat(path, file_name); //Concatena o nome do arquivo com o path para próxima verificação
+                printf("%s\n", path);
                 compare = strcmp(path, "../Photos/"); // Verifica se o repositório é vazio
                 if(compare != 0){
-
                     //Abre o arquivo
                     fp = fopen(path, "r");
-                    printf("Arquivo encontrado!\n");
-
                     //Move o arquivo para a pasta "database"
+                    data = datetime();
+                    nome_data = cleandata(data);
                     path_database = move_file(path, nome_data);
 
-                    puts(SHELLSCRIPT);
+            //         //puts(SHELLSCRIPT);
                     system(SHELLSCRIPT);    //it will run the script inside the c code. 
 
                     classificacao = model_result();
-                    populate_mysql(con, path_database, file_name, data, classificacao);
+                    fclose(fp);
+                    populate_mysql(path_database, file_name, data, classificacao);
                 }
                 //reinicia a variável path
                 strcpy(path, "../Photos/");
-                printf("Encerra fluxo");
-            }
+                strcpy(file_name, "");
+                
+            
+            status = 0;
             free(cmd);
             closedir(directory);
+            sleep(2);
         }
     }
 
@@ -154,21 +161,19 @@ char* move_file(char* path, char* nome_data){
     char* path_database = "../database/";
     char* ext = ".jpg";
     char* novo_path;
-
+    novo_path = malloc(sizeof(char)*100);
     sprintf(novo_path, "%s%s%s", path_database, nome_data, ext);
-    printf("Movendo arquivo para: %s\n", novo_path);
-    //rename(path, novo_path);
+    //printf("Movendo arquivo para: %s\n", novo_path);
+    rename(path, novo_path);
 
     return novo_path;
 }
 
 //Adiciona as informações da planta no banco de dados
-void* populate_mysql(MYSQL *con, char *path_database, char *file_name, char *data, char *classificacao){
-
-    printf("MySQL client version: %s\n", mysql_get_client_info());
+void* populate_mysql(char *path_database, char *file_name, char *data, char *classificacao){
+    MYSQL *con = mysql_init(NULL);
 
     char *sql_command;
-    
 
     sql_command = malloc(sizeof(char)*1000);
 
@@ -184,14 +189,15 @@ void* populate_mysql(MYSQL *con, char *path_database, char *file_name, char *dat
                             "DATABASE_PATOGENOS", 0, NULL, 0) == NULL){
             finish_with_error(con);
         }
-    printf("INSERT INTO dado_folha VALUES ('%s', '%s', '%s', '%s')\n", file_name, data, classificacao, path_database);
+        printf("Salva na tabela: %s, %s, %s, %s\n",file_name, data, classificacao, path_database );
     sprintf(sql_command, "INSERT INTO dado_folha VALUES ('%s', '%s', '%s', '%s')", file_name, data, classificacao, path_database);
 
     if (mysql_query(con, sql_command)) {
         finish_with_error(con);
     }
 
-    exit(0);
+    //exit(0);
+    mysql_close(con);
 }
 
 //Levanta erro da conexão com o banco de dados
