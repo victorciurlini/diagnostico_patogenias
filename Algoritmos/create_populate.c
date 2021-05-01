@@ -1,4 +1,4 @@
-#include <mysql.h>
+#include <mysql/mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,18 +23,18 @@ int main(int argc, char **argv)
                         "localhost", 
                         "cliente", 
                         "Cliente@0001",
-                        "testdb", 0, NULL, 0) == NULL)
+                        "DATABASE_PATOGENOS", 0, NULL, 0) == NULL)
   {
       finish_with_error(con);
   }
 
-  if (mysql_query(con, "DROP TABLE IF EXISTS cars")) {
-      finish_with_error(con);
-  }
+//   if (mysql_query(con, "DROP TABLE IF EXISTS cars")) {
+//       finish_with_error(con);
+//   }
 
-  if (mysql_query(con, "CREATE TABLE cars(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT)")) {
-      finish_with_error(con);
-  }
+//   if (mysql_query(con, "CREATE TABLE cars(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT)")) {
+//       finish_with_error(con);
+//   }
 
   if (mysql_query(con, "INSERT INTO cars VALUES(1,'Audi',52642)")) {
       finish_with_error(con);
