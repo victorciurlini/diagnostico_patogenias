@@ -44,7 +44,6 @@ int main(int argc, char **argv)
     FILE *fp;
     FILE *p;
     clock_t start, stop;
-    MYSQL *con = mysql_init(NULL);
     /***********************************/
 
     while(1){
