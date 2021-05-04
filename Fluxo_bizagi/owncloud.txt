@@ -1,0 +1,3 @@
+
+endereço do owncloud para acessar as imagens
+/var/www/owncloud/data/root/files/Photos
