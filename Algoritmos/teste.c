@@ -1,15 +1,19 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main(int argc, char **argv)
-{
-    int num = 2;
-    char *texto = "alooo galera de cowboy";
-    char *insert = "INSERT INTO";
-    char *size_string;
-    size_string = malloc(sizeof(char)*100);
-    //"INSERT INTO cars VALUES(1, 'AudiTT',23642)"
-    sprintf(size_string, "E aqui eu posso até já colocar o texto %s %s", texto, insert);
-    printf("%s", size_string);
-  exit(0);
+#include<time.h>
+#include <unistd.h>
+
+int main () {
+
+/* local variable definition */
+int a = 10;
+
+/* while loop execution */
+while(1) {
+sleep(1);
+printf("value of a: %d\n", a);
+a++;
+
+}
+
+return 0;
 }
