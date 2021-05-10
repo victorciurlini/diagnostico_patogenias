@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <mysql/mysql.h>
+#include <mysql.h>
 #include <sys/wait.h>
 
 
@@ -26,13 +26,13 @@ int main(int argc, char **argv)
 {
     /********Declarando variáveis*******/
     char ch, file_name[100];
-    char path[20] = "../Photos/";
+    char path[100] = "/var/www/owncloud/data/ciurlini/files/Photos";
     char *path_database;
     char *data;
     char *nome_data;
     char *cmd;
     char *classificacao;
-    char *folder = "../Photos";
+    char *folder = "/var/www/owncloud/data/ciurlini/files/Photos";
     char *format="test $(ls -AU \"%s\" 2>/dev/null | head -1 | wc -l) -ne 0";
     int status, exitcode;
     int size;
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
                     populate_mysql(path_database, file_name, data, classificacao);
                 }
                 //reinicia a variável path
-                strcpy(path, "../Photos/");
+                strcpy(path, "/var/www/owncloud/data/ciurlini/files/Photos");
                 strcpy(file_name, "");
                 
             
