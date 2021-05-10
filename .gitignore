@@ -3,4 +3,5 @@ Algoritmos/teste.*
 database/*
 settings.json
 Photos/*
-pontos_de_controle/
+dashboard/*.ipynb
+Photos/*
