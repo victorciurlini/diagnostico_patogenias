@@ -26,13 +26,13 @@ int main(int argc, char **argv)
 {
     /********Declarando variáveis*******/
     char ch, file_name[100];
-    char path[100] = "/var/www/owncloud/data/ciurlini/files/Photos";
+    char path[100] = "/var/www/owncloud/data/ciurlini/files/Photos/";
     char *path_database;
     char *data;
     char *nome_data;
     char *cmd;
     char *classificacao;
-    char *folder = "/var/www/owncloud/data/ciurlini/files/Photos";
+    char *folder = "/var/www/owncloud/data/ciurlini/files/Photos/";
     char *format="test $(ls -AU \"%s\" 2>/dev/null | head -1 | wc -l) -ne 0";
     int status, exitcode;
     int size;
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
             }
                 strcat(path, file_name); //Concatena o nome do arquivo com o path para próxima verificação
                 printf("%s\n", path);
-                compare = strcmp(path, "../Photos/"); // Verifica se o repositório é vazio
+                compare = strcmp(path, "/var/www/owncloud/data/ciurlini/files/Photos/"); // Verifica se o repositório é vazio
                 if(compare != 0){
                     //Abre o arquivo
                     fp = fopen(path, "r");
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
                     populate_mysql(path_database, file_name, data, classificacao);
                 }
                 //reinicia a variável path
-                strcpy(path, "/var/www/owncloud/data/ciurlini/files/Photos");
+                strcpy(path, "/var/www/owncloud/data/ciurlini/files/Photos/");
                 strcpy(file_name, "");
                 
             
